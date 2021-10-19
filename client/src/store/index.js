@@ -2,6 +2,7 @@ import { createContext, useState } from 'react'
 import jsTPS from '../common/jsTPS'
 import api from '../api'
 import MoveItem_Transaction from '../transactions/MoveItem_Transaction'
+import ChangeItem_Transaction from '../transactions/ChangeItem_Transaction';
 export const GlobalStoreContext = createContext({});
 /*
     This is our global data store. Note that it uses the Flux design pattern,
@@ -17,7 +18,8 @@ export const GlobalStoreActionType = {
     CLOSE_CURRENT_LIST: "CLOSE_CURRENT_LIST",
     LOAD_ID_NAME_PAIRS: "LOAD_ID_NAME_PAIRS",
     SET_CURRENT_LIST: "SET_CURRENT_LIST",
-    SET_LIST_NAME_EDIT_ACTIVE: "SET_LIST_NAME_EDIT_ACTIVE"
+    SET_LIST_NAME_EDIT_ACTIVE: "SET_LIST_NAME_EDIT_ACTIVE",
+    SET_ITEM_NAME_EDIT_ACTIVE: "SET_ITEM_NAME_EDIT_ACTIVE"
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -93,6 +95,16 @@ export const useGlobalStore = () => {
                     newListCounter: store.newListCounter,
                     isListNameEditActive: true,
                     isItemEditActive: false,
+                    listMarkedForDeletion: null
+                });
+            }
+            case GlobalStoreActionType.SET_ITEM_NAME_EDIT_ACTIVE: {
+                return setStore({
+                    idNamePairs: store.idNamePairs,
+                    currentList: payload,
+                    newListCounter: store.newListCounter,
+                    isListNameEditActive: false,
+                    isItemEditActive: true,
                     listMarkedForDeletion: null
                 });
             }
@@ -184,6 +196,14 @@ export const useGlobalStore = () => {
             }
         }
         asyncSetCurrentList(id);
+    }
+    store.addChangeItemTransaction = function(id, oldText, newText) {
+        let transaction = new ChangeItem_Transaction(store, id, oldText, newText);
+        tps.addTransaction(transaction);
+    }
+    store.changeItem = function(id, newText) {
+        store.currentList.items[id] = newText;
+        store.updateCurrentList();
     }
     store.addMoveItemTransaction = function (start, end) {
         let transaction = new MoveItem_Transaction(store, start, end);
