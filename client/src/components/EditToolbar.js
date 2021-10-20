@@ -25,6 +25,10 @@ function EditToolbar() {
         store.closeCurrentList();
     }
     
+    let editStatus = false;
+    if (store.isListNameEditActive) {
+        editStatus = true;
+    }
     let undoStatus = disabledButtonClass;
     let redoStatus = disabledButtonClass;
     let closeStatus = enabledButtonClass
@@ -35,38 +39,61 @@ function EditToolbar() {
         redoStatus = enabledButtonClass;
     }
     if (store.currentList === null || store.isItemEditActive){
+        undoStatus = disabledButtonClass;
+        redoStatus = disabledButtonClass;
         closeStatus = disabledButtonClass;
+        return (
+            <div id="edit-toolbar">
+                <div
+                    disabled={editStatus}
+                    id='undo-button'
+                    className={undoStatus}>
+                    &#x21B6;
+                </div>
+                <div
+                    disabled={editStatus}
+                    id='redo-button'
+                    className={redoStatus}>
+                    &#x21B7;
+                </div>
+                <div
+                    disabled={editStatus}
+                    id='close-button'
+                    className={closeStatus}>
+                    &#x24E7;
+                </div>
+            </div>
+        )
+    } else {
+        return (
+            <div id="edit-toolbar">
+                <div
+                    disabled={editStatus}
+                    id='undo-button'
+                    onClick={handleUndo}
+                    className={undoStatus}>
+                    &#x21B6;
+                </div>
+                <div
+                    disabled={editStatus}
+                    id='redo-button'
+                    onClick={handleRedo}
+                    className={redoStatus}>
+                    &#x21B7;
+                </div>
+                <div
+                    disabled={editStatus}
+                    id='close-button'
+                    onClick={handleClose}
+                    className={closeStatus}>
+                    &#x24E7;
+                </div>
+            </div>
+        )
     }
 
-    let editStatus = false;
-    if (store.isListNameEditActive) {
-        editStatus = true;
-    }
-    return (
-        <div id="edit-toolbar">
-            <div
-                disabled={editStatus}
-                id='undo-button'
-                onClick={handleUndo}
-                className={undoStatus}>
-                &#x21B6;
-            </div>
-            <div
-                disabled={editStatus}
-                id='redo-button'
-                onClick={handleRedo}
-                className={redoStatus}>
-                &#x21B7;
-            </div>
-            <div
-                disabled={editStatus}
-                id='close-button'
-                onClick={handleClose}
-                className={closeStatus}>
-                &#x24E7;
-            </div>
-        </div>
-    )
+    
+    
 }
 
 export default EditToolbar;

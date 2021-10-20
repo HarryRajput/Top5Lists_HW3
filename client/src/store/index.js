@@ -116,7 +116,7 @@ export const useGlobalStore = () => {
             case GlobalStoreActionType.SET_ITEM_NAME_EDIT_ACTIVE: {
                 return setStore({
                     idNamePairs: store.idNamePairs,
-                    currentList: payload,
+                    currentList: payload.currentList,
                     newListCounter: store.newListCounter,
                     isListNameEditActive: false,
                     isItemEditActive: true,
@@ -359,6 +359,15 @@ export const useGlobalStore = () => {
         storeReducer({
             type: GlobalStoreActionType.SET_LIST_NAME_EDIT_ACTIVE,
             payload: null
+        });
+    }
+
+    store.setIsItemEditActive = function () {
+        storeReducer({
+            type: GlobalStoreActionType.SET_ITEM_NAME_EDIT_ACTIVE,
+            payload: {
+                currentList: store.currentList
+            }
         });
     }
 

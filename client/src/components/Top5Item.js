@@ -45,6 +45,7 @@ function Top5Item(props) {
 
     function handleEditClick(event) {
         event.stopPropagation();
+        store.setIsItemEditActive();
         setEditActive(true);
     }
 
