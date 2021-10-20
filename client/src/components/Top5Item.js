@@ -51,8 +51,8 @@ function Top5Item(props) {
     function handleKeyPress(event) {
         if (event.code === "Enter"){
             setEditActive(false);
+            store.addChangeItemTransaction(props.index, props.text, text);
         }
-        store.addChangeItemTransaction(props.index, props.text, text);
     }
 
     function handleUpdateText(event) {

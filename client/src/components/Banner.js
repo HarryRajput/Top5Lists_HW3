@@ -9,7 +9,7 @@ import EditToolbar from './EditToolbar.js'
 function Banner(props) {
     return (        
         <div id="top5-banner">
-            Top 5 Lister
+             Top 5 Lister
             <EditToolbar />
         </div>
     );
