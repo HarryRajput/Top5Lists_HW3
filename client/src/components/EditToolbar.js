@@ -29,6 +29,7 @@ function EditToolbar() {
     if (store.isListNameEditActive) {
         editStatus = true;
     }
+    
     let undoStatus = disabledButtonClass;
     let redoStatus = disabledButtonClass;
     let closeStatus = enabledButtonClass
